@@ -14,7 +14,6 @@ public class Car {
         this.fRegDate = fRegDate;
         this.odometerVal = odometerVal;
     }
-
     public Car(){
 
     }

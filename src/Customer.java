@@ -21,4 +21,12 @@ public class Customer {
         this.phone = phone;
         this.email = email;
     }
+
+    public String getDriverName(){return driverName;}
+    public String getAddress(){return address;}
+    public int getPostalCode(){return postalCode;}
+    public String getCity(){return city;}
+    public int getMobilePhone(){return mobilePhone;}
+    public int getPhone(){return phone;}
+    public String getEmail(){return email;}
 }

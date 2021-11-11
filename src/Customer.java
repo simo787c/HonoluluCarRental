@@ -29,4 +29,8 @@ public class Customer {
     public int getMobilePhone(){return mobilePhone;}
     public int getPhone(){return phone;}
     public String getEmail(){return email;}
+
+    public String toString(){
+        return ("Driver: " + driverName + "\nAddress: " + address + "\nPostalCode: " + postalCode + "\nCity: " + city + "\nMobilePhone: " + mobilePhone + "\nPhone: " + phone + "\nEmail: " + email);
+    }
 }

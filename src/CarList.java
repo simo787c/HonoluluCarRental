@@ -23,13 +23,13 @@ public class CarList {
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price
-            if(parts[0]=="LUXURY"){
+            if(parts[0].equals("LUXURY")){
                 Luxury output = new Luxury(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
                 cars.add(output);
-            }else if(parts[0]=="FAMILY"){
+            }else if(parts[0].equals("FAMILY")){
                 Family output = new Family(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
                 cars.add(output);
-            }else if(parts[0]=="SPORT"){
+            }else if(parts[0].equals("SPORT")){
                 Sport output = new Sport(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
                 cars.add(output);
             }

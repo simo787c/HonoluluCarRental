@@ -9,7 +9,6 @@ public class Main {
     private static CarList myCarList = new CarList();
     //private and company customers arraylist
     public static void main(String[] args) throws FileNotFoundException, ParseException {
-        populateCarList();
         //
         mainMenu();
     }
@@ -27,28 +26,11 @@ public class Main {
     }
 
     public static void createCars(ArrayList<Car> list){
+
         //eventually get cars from file and add them to array list
     }
 
-    public static void populateCarList() throws ParseException, FileNotFoundException {
-        File myObj = new File("files/cars"); //Gets pizza menu file
-        Scanner myReader = new Scanner(myObj);
-        while (myReader.hasNextLine()) {
-            String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price
-            if(parts[0]=="LUXURY"){
-                Luxury output = new Luxury(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
-                myCarList.addCar(output);
-            }else if(parts[0]=="FAMILY"){
-                Family output = new Family(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
-                myCarList.addCar(output);
-            }else if(parts[0]=="SPORT"){
-                Sport output = new Sport(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
-                myCarList.addCar(output);
-            }
 
-        }
-        myReader.close();
-    }
 
     public static void createCustomers(ArrayList<Customer> list){
         //eventually get customers from file and add them to array list
@@ -58,9 +40,5 @@ public class Main {
         //populate arraylist with contracts
     }
 
-    public static Date stringToDate(String dateAsString) throws ParseException {
-        String sDate1=dateAsString;
-        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
-        return date1;
-    }
+
 }

@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 public class Main {
     public static Scanner input = new Scanner(System.in);
-    private static ArrayList<Car> cars = new ArrayList<>();
     private static ArrayList<Customer> customers = new ArrayList<>();
+    private static CarList myCarList = new CarList();
     //private and company customers arraylist
     public static void main(String[] args) throws FileNotFoundException, ParseException {
         populateCarList();
@@ -37,13 +37,13 @@ public class Main {
             String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price
             if(parts[0]=="LUXURY"){
                 Luxury output = new Luxury(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
-                cars.add(output);
+                myCarList.addCar(output);
             }else if(parts[0]=="FAMILY"){
                 Family output = new Family(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
-                cars.add(output);
+                myCarList.addCar(output);
             }else if(parts[0]=="SPORT"){
                 Sport output = new Sport(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
-                cars.add(output);
+                myCarList.addCar(output);
             }
 
         }

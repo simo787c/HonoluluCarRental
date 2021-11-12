@@ -59,8 +59,7 @@ public class Main {
     }
 
     public static Date stringToDate(String dateAsString) throws ParseException {
-        String sDate1=dateAsString;
-        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
         return date1;
     }
 }

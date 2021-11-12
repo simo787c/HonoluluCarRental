@@ -31,6 +31,11 @@ public class Main {
         //eventually get cars from file and add them to array list
     }
 
+    public static void createCar() throws ParseException, FileNotFoundException {
+        Car input = new Luxury("TESLA MODEL X", "ELECTRIC", "fosffsdf", stringToDate("2005-09-09"), 83101);
+        myCarList.addCar(input);
+    }
+
     public static void populateCarList() throws ParseException, FileNotFoundException {
         File myObj = new File("files/cars"); //Gets pizza menu file
         Scanner myReader = new Scanner(myObj);

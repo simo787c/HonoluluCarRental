@@ -1,5 +1,7 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,8 +15,17 @@ public class CarList {
         populateCarList();
         return cars;
     }
-    public void addCar(Car car){
-        cars.add(car);
+    public void addCar(Car car) throws FileNotFoundException, ParseException {
+            try{
+                FileWriter appendNE = new FileWriter("files/cars",true);
+                BufferedWriter out = new BufferedWriter(appendNE);
+                //appendNE.write("\n"+fn+" "+ln+" "+a+" "+h);
+                out.write("\n" + car.getRentalType() + " // " + car.getBrandModel() + " // " + car.getFuelType() + " // " + car.getPlate() + " // " + car.getfRegDate().toString() + " // " + car.getOdometerVal());
+                out.close();
+            }catch(Exception er){
+                System.err.println("Error while printing"+ er.getMessage());
+            }
+            populateCarList();
     }
 
     public void populateCarList() throws ParseException, FileNotFoundException {

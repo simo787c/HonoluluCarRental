@@ -8,10 +8,10 @@ public class Company extends Customer {
 
     public Company(String dN, String a, int pC, String c, int mP, int p, String e, String cN, String cA, int cP, int cRN){
         super(dN,a,pC,c,mP,p,e);
-        companyName = cN;
-        companyAddress = cA;
-        companyPhone = cP;
-        companyRegistrationNumber = cRN;
+        this.companyName = cN;
+        this.companyAddress = cA;
+        this.companyPhone = cP;
+        this.companyRegistrationNumber = cRN;
     }
 
     public String getCompanyName(){return companyName;}

@@ -17,4 +17,8 @@ public class Car {
     public Car(){
 
     }
+
+    public String toString(){
+        return ("Brand: " + brandModel + "\nFuel Type: " + fuelType + "\nLicense Plate: " + plate + "\nFirst Registration Date: " + fRegDate + "");
+    }
 }

@@ -18,7 +18,7 @@ public class Main {
         //print out menu
         int select = Integer.parseInt(input.nextLine());
         switch (select){
-            case 1://Create car, customers, or rentals
+            case 1://Create car, customers, or contracts
             case 2://Edit
             case 3://print lists from files
             case 4://end program
@@ -31,7 +31,7 @@ public class Main {
     }
 
     public static void populateCarList() throws ParseException, FileNotFoundException {
-        File myObj = new File("files/cars.txt"); //Gets pizza menu file
+        File myObj = new File("files/cars"); //Gets pizza menu file
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price

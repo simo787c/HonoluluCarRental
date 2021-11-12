@@ -9,7 +9,6 @@ import java.util.Scanner;
 public class CarList {
 
     private ArrayList<Car> cars = new ArrayList<>();
-
     public ArrayList<Car> getCars() throws FileNotFoundException, ParseException {
         populateCarList();
         return cars;

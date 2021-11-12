@@ -29,7 +29,7 @@ public class CarList {
     }
 
     public void populateCarList() throws ParseException, FileNotFoundException {
-        File myObj = new File("files/cars"); //Gets pizza menu file
+        File myObj = new File("files/cars"); //Gets  menu file
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price
@@ -48,8 +48,7 @@ public class CarList {
         myReader.close();
     }
     public static Date stringToDate(String dateAsString) throws ParseException {
-        String sDate1=dateAsString;
-        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
         return date1;
     }
 }

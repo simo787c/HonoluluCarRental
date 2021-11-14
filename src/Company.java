@@ -7,7 +7,7 @@ public class Company extends Customer {
     public Company(){}
 
     public Company(String dN, String a, int pC, String c, int mP, int p, String e, String cN, String cA, int cP, int cRN){
-        super(dN,a,pC,c,mP,p,e);
+        super("COMPANY",dN,a,pC,c,mP,p,e);
         this.companyName = cN;
         this.companyAddress = cA;
         this.companyPhone = cP;

@@ -32,7 +32,7 @@ public class CarList {
         File myObj = new File("files/cars"); //Gets car file
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
-            String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price
+            String[] parts = myReader.nextLine().split(" // "); //Splits
             if(parts[0].equals("LUXURY")){
                 Luxury output = new Luxury(parts[1], parts[2],parts[3],stringToDate(parts[4]),Integer.parseInt(parts[5]));
                 cars.add(output);

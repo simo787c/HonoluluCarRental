@@ -6,7 +6,7 @@ public class Private extends Customer {
     public Private(){}
 
     public Private(String dN, String a, int pC, String c, int mP, int p, String e, String lN, Date dSD){
-        super(dN,a,pC,c,mP,p,e);
+        super("PRIVATE",dN,a,pC,c,mP,p,e);
         this.licenseNumber = lN;
         this.driverSinceDate = dSD;
     }

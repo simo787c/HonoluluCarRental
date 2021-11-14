@@ -7,12 +7,13 @@ public class Customer {
     private int mobilePhone;
     private int phone;
     private String email;
+    private String customerType;
 
     public Customer(){
 
     }
 
-    public Customer(String driverName,String address,int postalCode,String city,int mobilePhone,int phone,String email){
+    public Customer(String customerType, String driverName,String address,int postalCode,String city,int mobilePhone,int phone,String email){
         this.driverName = driverName;
         this.address = address;
         this.postalCode = postalCode;
@@ -20,6 +21,7 @@ public class Customer {
         this.mobilePhone = mobilePhone;
         this.phone = phone;
         this.email = email;
+        this.customerType = customerType;
     }
 
     public String getDriverName(){return driverName;}
@@ -29,6 +31,7 @@ public class Customer {
     public int getMobilePhone(){return mobilePhone;}
     public int getPhone(){return phone;}
     public String getEmail(){return email;}
+    public String getCustomerType() {return customerType;}
 
     public String toString(){
         return ("Driver: " + driverName + "\nAddress: " + address + "\nPostalCode: " + postalCode + "\nCity: " + city + "\nMobilePhone: " + mobilePhone + "\nPhone: " + phone + "\nEmail: " + email);

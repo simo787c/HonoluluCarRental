@@ -29,7 +29,7 @@ public class CarList {
     }
 
     public void populateCarList() throws ParseException, FileNotFoundException {
-        File myObj = new File("files/cars"); //Gets  menu file
+        File myObj = new File("files/cars"); //Gets car file
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
             String[] parts = myReader.nextLine().split(" // "); //Splits pizzas by number, name, ingredients, and price

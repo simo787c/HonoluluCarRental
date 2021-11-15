@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +21,9 @@ public class CarList {
                 FileWriter appendNE = new FileWriter("files/cars",true);
                 BufferedWriter out = new BufferedWriter(appendNE);
                 //appendNE.write("\n"+fn+" "+ln+" "+a+" "+h);
-                out.write("\n" + car.getRentalType() + " // " + car.getBrandModel() + " // " + car.getFuelType() + " // " + car.getPlate() + " // " + car.getfRegDate().toString() + " // " + car.getOdometerVal());
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String strDate = dateFormat.format(car.getfRegDate());
+                out.write("\n" + car.getRentalType() + " // " + car.getBrandModel() + " // " + car.getFuelType() + " // " + car.getPlate() + " // " + strDate + " // " + car.getOdometerVal());
                 out.close();
             }catch(Exception er){
                 System.err.println("Error while printing"+ er.getMessage());

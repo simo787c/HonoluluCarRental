@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,13 +20,16 @@ public class CustomerList {
         try{
             FileWriter appendNE = new FileWriter("files/customers",true);
             BufferedWriter out = new BufferedWriter(appendNE);
-            //appendNE.write("\n"+fn+" "+ln+" "+a+" "+h);
+
             if (customer.getCustomerType().equals("COMPANY")){
+                Company cCustomer = (Company) customer; //Casting in order to get extra parameters, which somehow works?
                 //missing company specific fields to add
-                out.write("\n" + customer.getCustomerType() + " // " + customer.getDriverName() + " // " + customer.getAddress() + " // " + customer.getPostalCode() + " // " + customer.getCity() + " // " + customer.getMobilePhone() + " // " + customer.getPhone() + " // " + customer.getEmail() + " // ");
+                out.write("\n" + cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber());
             }else if(customer.getCustomerType().equals("PRIVATE")){
-                //missing private specific fields to add
-                out.write("\n" + customer.getCustomerType() + " // " + customer.getDriverName() + " // " + customer.getAddress() + " // " + customer.getPostalCode() + " // " + customer.getCity() + " // " + customer.getMobilePhone() + " // " + customer.getPhone() + " // " + customer.getEmail());
+                Private pCustomer = (Private) customer; //Casting in order to get extra parameters, which somehow works?
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
+                out.write("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate);
             }
             out.close();
         }catch(Exception er){

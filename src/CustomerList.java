@@ -8,14 +8,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class CustomerList {
+    public String getListToString() {
+        return listToString;
+    }
 
+    private String listToString;
     private ArrayList<Customer> customers = new ArrayList<>();
     public ArrayList<Customer> getCustomers() throws FileNotFoundException, ParseException {
         populateCustomerList();
         return customers;
     }
+
     public void addCustomer(Customer customer) throws FileNotFoundException, ParseException {
         try{
             FileWriter appendNE = new FileWriter("files/customers",true);
@@ -24,12 +30,12 @@ public class CustomerList {
             if (customer.getCustomerType().equals("COMPANY")){
                 Company cCustomer = (Company) customer; //Casting in order to get extra parameters, which somehow works?
                 //missing company specific fields to add
-                out.write("\n" + cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber());
+                out.write("\n" + cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID());
             }else if(customer.getCustomerType().equals("PRIVATE")){
                 Private pCustomer = (Private) customer; //Casting in order to get extra parameters, which somehow works?
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
-                out.write("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate);
+                out.write("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID());
             }
             out.close();
         }catch(Exception er){
@@ -41,13 +47,18 @@ public class CustomerList {
     public void populateCustomerList() throws ParseException, FileNotFoundException {
         File myObj = new File("files/customers"); //Gets customer file
         Scanner myReader = new Scanner(myObj);
+        listToString = "";
         while (myReader.hasNextLine()) {
-            String[] parts = myReader.nextLine().split(" // "); //Splits
+            String nextLine = myReader.nextLine();
+            listToString += nextLine + "\n";
+            String[] parts = nextLine.split(" // "); //Splits
             if(parts[0].equals("COMPANY")){
                 Company output = new Company(parts[1], parts[2],Integer.parseInt(parts[3]),parts[4],Integer.parseInt(parts[5]),Integer.parseInt(parts[6]),parts[7],parts[8],parts[9],Integer.parseInt(parts[10]),Integer.parseInt(parts[11]));
+                output.setID(Integer.parseInt(parts[12].substring(3, 6)));
                 customers.add(output);
             }else if(parts[0].equals("PRIVATE")){
                 Private output = new Private(parts[1], parts[2],Integer.parseInt(parts[3]),parts[4],Integer.parseInt(parts[5]),Integer.parseInt(parts[6]),parts[7],parts[8],stringToDate(parts[9]));
+                output.setID(Integer.parseInt(parts[10].substring(3,6)));
                 customers.add(output);
             }
 
@@ -58,5 +69,6 @@ public class CustomerList {
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
         return date1;
     }
+
 
 }

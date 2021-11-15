@@ -1,5 +1,8 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Customer {
 
+    private static CustomerList myCustomerList = new CustomerList();
     private String driverName;
     private String address;
     private int postalCode;
@@ -9,6 +12,11 @@ public class Customer {
     private String email;
     private String customerType;
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    private int ID;
     public Customer(){
 
     }
@@ -22,6 +30,7 @@ public class Customer {
         this.phone = phone;
         this.email = email;
         this.customerType = customerType;
+        this.ID = generateID();
     }
 
     public String getDriverName(){return driverName;}
@@ -32,10 +41,22 @@ public class Customer {
     public int getPhone(){return phone;}
     public String getEmail(){return email;}
     public String getCustomerType() {return customerType;}
-
+    public int getID() {return ID;}
     public String toString(){
         return ("Driver: " + driverName + "\nAddress: " + address + "\nPostalCode: " + postalCode + "\nCity: " + city + "\nMobilePhone: " + mobilePhone + "\nPhone: " + phone + "\nEmail: " + email);
     }
 
+    public static int generateID(){
+        int randomID = (ThreadLocalRandom.current().nextInt(100, 999 + 1)); // Generate random number between 100-999));
+
+        try{
+            while(myCustomerList.getListToString().contains(" // ID:" + String.valueOf(randomID))) {
+                randomID = (ThreadLocalRandom.current().nextInt(100, 999 + 1)); // Generate random number between 100-999));
+            }
+        }catch (Exception e){
+
+        }
+        return(randomID);
+    }
 
 }

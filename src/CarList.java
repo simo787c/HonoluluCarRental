@@ -12,8 +12,13 @@ import java.util.Scanner;
 public class CarList {
 
     private ArrayList<Car> cars = new ArrayList<>();
-    public ArrayList<Car> getCars() throws FileNotFoundException, ParseException {
+    public ArrayList<Car> createCars() throws FileNotFoundException, ParseException {
+        //for initializing arraylist
         populateCarList();
+        return cars;
+    }
+    public ArrayList<Car> getCarList() {
+        //for printing out existing list
         return cars;
     }
     public void addCar(Car car) throws FileNotFoundException, ParseException {
@@ -54,4 +59,5 @@ public class CarList {
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
         return date1;
     }
+
 }

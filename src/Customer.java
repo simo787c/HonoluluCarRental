@@ -1,8 +1,26 @@
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Customer {
 
     private static CustomerList myCustomerList = new CustomerList();
+
+    public void setDriverName(String driverName) {this.driverName = driverName;}
+
+    public void setAddress(String address) {this.address = address;}
+
+    public void setPostalCode(int postalCode) {this.postalCode = postalCode;}
+
+    public void setCity(String city) {this.city = city;}
+
+    public void setMobilePhone(int mobilePhone) {this.mobilePhone = mobilePhone;}
+
+    public void setPhone(int phone) {this.phone = phone;}
+
+    public void setEmail(String email) {this.email = email;}
+
+    public void setCustomerType(String customerType) {this.customerType = customerType;}
+
     private String driverName;
     private String address;
     private int postalCode;

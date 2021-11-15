@@ -10,8 +10,8 @@ public class Main {
     private static CarList myCarList = new CarList();
     //private and company customers arraylist
     public static void main(String[] args) throws FileNotFoundException, ParseException {
-        myCarList.getCars();
-        myCustomerList.getCustomers();
+        myCarList.createCars(); //populates car arraylist
+        myCustomerList.createCustomers(); //populates customer arraylist
         mainMenu();
     }
 
@@ -139,7 +139,7 @@ public class Main {
     }
 
     public static void printCars() throws FileNotFoundException, ParseException {
-        ArrayList<Car> temp = myCarList.getCars();
+        ArrayList<Car> temp = myCarList.getCarList();
         System.out.println("List of cars from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
             System.out.println(temp.get(i)+"\n");
@@ -148,7 +148,8 @@ public class Main {
     }
 
     public static void printCustomers() throws FileNotFoundException, ParseException {
-        ArrayList<Customer> temp = myCustomerList.getCustomers();
+        //evt ask user if they wish to only show private or company customers
+        ArrayList<Customer> temp = myCustomerList.getCustomerList();
         System.out.println("List of customers from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
             System.out.println(temp.get(i)+"\n");

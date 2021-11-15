@@ -17,8 +17,11 @@ public class CustomerList {
 
     private String listToString;
     private ArrayList<Customer> customers = new ArrayList<>();
-    public ArrayList<Customer> getCustomers() throws FileNotFoundException, ParseException {
+    public ArrayList<Customer> createCustomers() throws FileNotFoundException, ParseException {
         populateCustomerList();
+        return customers;
+    }
+    public ArrayList<Customer> getCustomerList() throws FileNotFoundException, ParseException {
         return customers;
     }
 
@@ -28,11 +31,10 @@ public class CustomerList {
             BufferedWriter out = new BufferedWriter(appendNE);
 
             if (customer.getCustomerType().equals("COMPANY")){
-                Company cCustomer = (Company) customer; //Casting in order to get extra parameters, which somehow works?
-                //missing company specific fields to add
+                Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
                 out.write("\n" + cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID());
             }else if(customer.getCustomerType().equals("PRIVATE")){
-                Private pCustomer = (Private) customer; //Casting in order to get extra parameters, which somehow works?
+                Private pCustomer = (Private) customer; //Casting in order to get extra parameters, woohoo
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
                 out.write("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID());
@@ -42,6 +44,22 @@ public class CustomerList {
             System.err.println("Error while printing"+ er.getMessage());
         }
         populateCustomerList();
+    }
+
+    public ArrayList<Customer> editCustomer(ArrayList<Customer> customers, int delNum, String customerType, String driverName,String address,int postalCode,String city,int mobilePhone,int phone,String email, int ID){
+        //find id/index and replace in file with new entry
+        customers.set(delNum,)
+        customers.get(delNum).setDriverName(driverName);
+        //overwrite previous file replacing the index of edited item with new info into same spot in file
+        String strOutput = "";
+        for(int i = 0; i<customers.size(); i++){
+            //for every item in the array
+            if (i != delNum){
+                //if the item hasnt been edited
+            }else if(i == delNum){
+                //else if the item has been edited
+            }
+        }
     }
 
     public void populateCustomerList() throws ParseException, FileNotFoundException {
@@ -69,6 +87,5 @@ public class CustomerList {
         Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
         return date1;
     }
-
 
 }

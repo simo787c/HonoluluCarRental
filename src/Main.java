@@ -105,6 +105,62 @@ public class Main {
                         //Create Contract
                 }
             case 2://Edit
+                System.out.println("1. Edit Cars\n 2. Edit Customers\n 3. Edit Contracts");
+                int editSelect = Integer.parseInt(input.nextLine());
+                switch(editSelect){
+                    case 1://car
+                    case 2://customer
+
+                        System.out.println("\nWhich customer do you wish to modify?: \n");
+                        ArrayList<Customer> temp = myCustomerList.getCustomerList();
+                        for (int i = 0; i<=temp.size(); i++){
+                            System.out.println(i+1 + ": " + (temp.get(i)+"\n"));
+                        }
+                        int edNum = Integer.parseInt(input.nextLine());
+
+                        System.out.println("Modifying customer..\nPlease enter the following\n-------------------");
+                        System.out.println("Name: ");
+                        temp.get(edNum).setDriverName(input.nextLine());
+                        System.out.println("City: ");
+                        temp.get(edNum).setCity(input.nextLine());
+                        System.out.println("Address: ");
+                        temp.get(edNum).setAddress(input.nextLine());
+                        System.out.println("Postal Code: ");
+                        temp.get(edNum).setPostalCode(input.nextInt());
+                        System.out.println("Mobile/home phone: ");
+                        temp.get(edNum).setMobilePhone(input.nextInt());
+                        System.out.println("Work phone: ");
+                        temp.get(edNum).setPhone(input.nextInt());
+                        System.out.println("Email: ");
+                        temp.get(edNum).setEmail(input.nextLine());
+
+                        String cCompany="";
+                        String cCompanyAddress="";
+                        int cCompanyRegNumber;
+                        int cCompanyPhone;
+                        if(temp.get(edNum).getCustomerType().equals("COMPANY")){
+                            ArrayList<Company> ctemp = (ArrayList<Company>) temp;
+                            System.out.println("Company name: ");
+                            cCompany = input.nextLine();
+                            System.out.println("Company address: ");
+                            cCompanyAddress = input.nextLine();
+                            System.out.println("Company phone: ");
+                            cCompanyPhone = Integer.parseInt(input.nextLine());
+                            System.out.println("Company registration number: ");
+                            cCompanyRegNumber = Integer.parseInt(input.nextLine());
+                            Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
+                            myCustomerList.editCustomer(outputCustomer);
+                        } else {
+                            System.out.println("Licence number: ");
+                            String cRegNumber = input.nextLine();
+                            System.out.println("Driver since (yyyy-mm-dd): ");
+                            Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
+                            Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
+                            myCustomerList.editCustomer(outputCustomer);
+                        }
+                        mainMenu();
+                    case 3://contract
+                }
 
             case 3://print lists from files
                 System.out.println("1. Cars\n2. Customers\n3. Contracts");

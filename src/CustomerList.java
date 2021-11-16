@@ -51,7 +51,8 @@ public class CustomerList {
         while (myReader.hasNextLine()) {
             String currentline = myReader.nextLine();
             if (!currentline.contains("ID:"+customer.getID())){
-                output+=currentline+"\n";} else { //Save line if it doesn't contain customer
+                output+=currentline+"\n";}
+            else { //Save line if it doesn't contain customer
                 if (customer.getCustomerType().equals("COMPANY")){
                     Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
                     output+=("\n" + cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID());
@@ -61,8 +62,8 @@ public class CustomerList {
                     String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
                     output+=("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID());
                 }
-                }
             }
+        }
 
         myReader.close();
         //New file is written

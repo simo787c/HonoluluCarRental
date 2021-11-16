@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,51 +43,33 @@ public class CustomerList {
         populateCustomerList();
     }
 
-    /*public ArrayList<Customer> editCustomer(ArrayList<Customer> customers, int delNum, String customerType, String driverName,String address,int postalCode,String city,int mobilePhone,int phone,String email, int ID) throws IOException, ParseException {
-        //find id/index and replace in file with new entry
-        //customers.set(delNum,)
-        //customers.get(delNum).setDriverName(driverName);
-        //overwrite previous file replacing the index of edited item with new info into same spot in file
-
-        for(int i = 0; i<customers.size(); i++){
-            //for every item in the array
-            try{
-                File file = new File("files/customers");
-                Scanner out = new Scanner(file);
-                String outputString = "";
-                while(out.hasNextLine()){
-                    if(i == delNum){
-                        //ignore previous and insert new info via parameter, but how do we get private and company specific fields since its an arraylist now?
-                        if (customers.get(i).getCustomerType().equals("COMPANY")){
-                            //Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
-                            outputString += ("\n" + customerType + " // " + driverName + " // " + address + " // " + postalCode + " // " + city + " // " + mobilePhone + " // " + phone + " // " + email + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID());
-                        }else if(customers.get(i).getCustomerType().equals("PRIVATE")){
-                            //Private pCustomer = (Private) customer; //Casting in order to get extra parameters, woohoo
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
-                            out.write("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID());
-                        }
-                    }else{
-                        //add unchanged items to file
-                        if (customers.get(i).getCustomerType().equals("COMPANY")){
-                            //Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
-                            out.write("\n" + customers.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID());
-                        }else if(customers.get(i).getCustomerType().equals("PRIVATE")){
-                            //Private pCustomer = (Private) customer; //Casting in order to get extra parameters, woohoo
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
-                            out.write("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID());
-                        }
-                    }
+    public void editCustomer(Customer customer) throws IOException {
+        String output = "";
+        //File is read
+        File myObj = new File("files/customers"); //First we read the file
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String currentline = myReader.nextLine();
+            if (!currentline.contains("ID:"+customer.getID())){
+                output+=currentline+"\n";} else { //Save line if it doesn't contain customer
+                if (customer.getCustomerType().equals("COMPANY")){
+                    Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
+                    output+=("\n" + cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID());
+                }else if(customer.getCustomerType().equals("PRIVATE")){
+                    Private pCustomer = (Private) customer; //Casting in order to get extra parameters, woohoo
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
+                    output+=("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID());
                 }
-                out.close();
-
-            }catch(Exception er){
-                System.err.println("Error while printing"+ er.getMessage());
+                }
             }
-            getCustomerList();
-        }
-    }*/
+
+        myReader.close();
+        //New file is written
+        FileWriter myWriter = new FileWriter("files/customers");
+        myWriter.write(output); //Then we write the whole thing again
+        myWriter.close();
+    }
 
     public void populateCustomerList() throws ParseException, FileNotFoundException {
         File myObj = new File("files/customers"); //Gets customer file

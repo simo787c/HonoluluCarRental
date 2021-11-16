@@ -113,6 +113,7 @@ public class Main {
                             cCompanyPhone = Integer.parseInt(input.nextLine());
                             System.out.println("Company registration number: ");
                             cCompanyRegNumber = Integer.parseInt(input.nextLine());
+                            temp.set
                             Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
                             myCustomerList.editCustomer(outputCustomer);
                         } else {

@@ -61,7 +61,7 @@ public class Customer {
     public String getCustomerType() {return customerType;}
     public int getID() {return ID;}
     public String toString(){
-        return ("Driver: " + driverName + "\nAddress: " + address + "\nPostalCode: " + postalCode + "\nCity: " + city + "\nMobilePhone: " + mobilePhone + "\nPhone: " + phone + "\nEmail: " + email + "\nID: " + ID);
+        return ("Driver: " + driverName + "\nAddress: " + address + "\nPostalCode: " + postalCode + "\nCity: " + city + "\nMobilePhone: " + mobilePhone + "\nPhone: " + phone + "\nEmail: " + email);
     }
 
     public static int generateID(){

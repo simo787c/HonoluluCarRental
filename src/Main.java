@@ -60,12 +60,15 @@ public class Main {
                         createCustomer(false,(Integer.parseInt(input.nextLine())==2));
                         mainMenu();
                     case 3:
+                        //Create contract
                         System.out.println("*** CREATE CONTRACT ***");
                         System.out.println("Does the customer exist in the registry? Y/n");
                         if (input.nextLine().equalsIgnoreCase("n")) {
                             System.out.println("1. New private customer\n2. New company customer");
                             myCustomerList.addCustomer(createCustomer(false,(Integer.parseInt(input.nextLine())==2)));
-                            createContract(myCustomerList.getCustomerList().size()-1);
+                            myContractList.addCustomer(createContract(myCustomerList.getCustomerList().size()-1));
+                            System.out.println("*** Added contract! ***");
+                            mainMenu();
                         }else{
                             printCustomers();
                             System.out.print("Enter number to select customer: ");
@@ -84,19 +87,29 @@ public class Main {
                             System.out.println(i+1 + ": " + (temp.get(i)+"\n"));
                         }
                         System.out.println("\nWhich customer do you wish to modify?: \n");
-                        int edNum = Integer.parseInt(input.nextLine())-1;
-                        System.out.println(temp.get(edNum)+"\n");
-                        if (temp.get(edNum).getCustomerType().equals("COMPANY")){
+                        int cx = Integer.parseInt(input.nextLine())-1;
+                        System.out.println(temp.get(cx)+"\n");
+                        if (temp.get(cx).getCustomerType().equals("COMPANY")){
                             Company outputCustomer = (Company) createCustomer(false, true);
-                            outputCustomer.setID(temp.get(edNum).getID());
+                            outputCustomer.setID(temp.get(cx).getID());
                             myCustomerList.editCustomer(outputCustomer);
                         }else{
                             Private outputCustomer = (Private) createCustomer(false, false);
-                            outputCustomer.setID(temp.get(edNum).getID());
+                            outputCustomer.setID(temp.get(cx).getID());
                             myCustomerList.editCustomer(outputCustomer);
                         }
+                        System.out.println("*** Done! ***");
+                        mainMenu();
                         mainMenu();
                     case 3://contract
+                        printContracts();
+                        System.out.println("\nWhich contract do you wish to modify?: \n");
+                        int rc = Integer.parseInt(input.nextLine())-1;
+                        printCustomers();
+                        System.out.print("Who should be on the selected contract? Enter number to select customer: ");
+                        myContractList.editContract(createContract(Integer.parseInt(input.nextLine())-1), rc);
+                        System.out.println("*** Done! ***");
+                        mainMenu();
                 }
 
             case 3://print lists from files
@@ -157,7 +170,7 @@ public class Main {
         ArrayList<RentalContract> temp = myContractList.getContracts();
         System.out.println("List of customers from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
-            System.out.println(temp.get(i)+"\n");
+            System.out.println("NUMBER " + (i+1) + ":\n" + temp.get(i)+"\n");
         }
         System.out.println("------------------------------");
     }
@@ -220,7 +233,7 @@ public class Main {
         }
     }
 
-    public static void createContract(int cxID) throws IOException, ParseException {
+    public static RentalContract createContract(int cxID) throws IOException, ParseException {
         printCars();
         Customer tempCustomer = myCustomerList.getCustomerList().get(cxID);
         System.out.print("Enter number to select rental car: ");
@@ -234,8 +247,6 @@ public class Main {
         System.out.println("What is the end date of the rental? (yyyy-mm-dd):");
         Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
         RentalContract output = new RentalContract(tempCustomer, tempCar, startDate, endDate, maxKM, tempCar.getOdometerVal());
-        myContractList.addCustomer(output);
-        System.out.println("Added ");
-        mainMenu();
+        return output;
     }
 }

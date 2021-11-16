@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,5 +61,26 @@ public class ContractList {
             System.err.println("Error while printing"+ er.getMessage());
         }
         populateContractList();
+    }
+    public void editContract(RentalContract contract, int oldNum) throws IOException {
+        String output = "";
+        //File is read
+        File myObj = new File("files/contracts"); //First we read the file
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String currentline = myReader.nextLine();
+            String[] parts = currentline.split(" // ");
+            if (!parts[0].equals(String.valueOf(contracts.get(oldNum).getCustomer().getID()))){  //Save line if it doesn't contain contract
+                output+=currentline+"\n";}
+            else { //Save edited contract from parameter
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                output += (contract.getCustomer().getID() + " // " + dateFormat.format(contract.getFromDateTime()) + " // " + dateFormat.format(contract.getToDate()) + " // " + contract.getMaxKilometer() + " // " + contract.getStartKilometer() + " // " + contract.getCar().getPlate() + "\n");
+            }
+        }
+        myReader.close();
+        //New file is written
+        FileWriter myWriter = new FileWriter("files/contracts");
+        myWriter.write(output); //Then we write the whole thing again
+        myWriter.close();
     }
 }

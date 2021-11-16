@@ -70,4 +70,5 @@ public class RentalContract {
     public String toString(){
         return ("**************\nCUSTOMER FILE:\n"+customer.toString() + "\n\nCAR RENTED: \n" + car.toString() + "\n\nRENT FROM/TO DATE: " + fromDateTime.toString() + " - " + toDate.toString() + "\n\nMAX KM: " + maxKilometer + "\n\nODOMETER VALUE AT RENT: " + startKilometer);
     }
+
 }

@@ -56,13 +56,16 @@ public class Main {
                         mainMenu();
                     case 2:
                         //Create customer
-                        createCustomer(false);
+                        System.out.println("1. New private customer\n2. New company customer");
+                        createCustomer(false,(Integer.parseInt(input.nextLine())==2));
                         mainMenu();
                     case 3:
                         System.out.println("*** CREATE CONTRACT ***");
                         System.out.println("Does the customer exist in the registry? Y/n");
                         if (input.nextLine().equalsIgnoreCase("n")) {
-                            createCustomer(true);
+                            System.out.println("1. New private customer\n2. New company customer");
+                            myCustomerList.addCustomer(createCustomer(false,(Integer.parseInt(input.nextLine())==2)));
+                            createContract(myCustomerList.getCustomerList().size()-1);
                         }else{
                             printCustomers();
                             System.out.print("Enter number to select customer: ");
@@ -76,56 +79,19 @@ public class Main {
                 switch(editSelect){
                     case 1://car
                     case 2://customer
-
-                        System.out.println("\nWhich customer do you wish to modify?: \n");
                         ArrayList<Customer> temp = myCustomerList.getCustomerList();
-                        for (int i = 0; i<=temp.size(); i++){
+                        for (int i = 0; i<=temp.size()-1; i++){
                             System.out.println(i+1 + ": " + (temp.get(i)+"\n"));
                         }
-                        int edNum = Integer.parseInt(input.nextLine());
-
-                        System.out.println("Modifying customer..\nPlease enter the following\n-------------------");
-                        System.out.println("Name: ");
-                        String cName = input.nextLine();
-                        System.out.println("City: ");
-                        String cCity = input.nextLine();
-                        System.out.println("Address: ");
-                        String cAddress = input.nextLine();
-                        System.out.println("Postal Code: ");
-                        int cPostal = Integer.parseInt(input.nextLine());
-                        System.out.println("Phone: ");
-                        int cWorkPhone = input.nextInt();
-                        input.nextLine();
-                        System.out.println("Mobile phone: ");
-                        int cMobile = input.nextInt();
-                        input.nextLine();
-                        System.out.println("Email: ");
-                        String cMail = input.nextLine();
-
-                        String cCompany="";
-                        String cCompanyAddress="";
-                        int cCompanyRegNumber;
-                        int cCompanyPhone;
-                        if(temp.get(edNum).getCustomerType().equals("COMPANY")){
-                            System.out.println("Company name: ");
-                            cCompany = input.nextLine();
-                            System.out.println("Company address: ");
-                            cCompanyAddress = input.nextLine();
-                            System.out.println("Company phone: ");
-                            cCompanyPhone = input.nextInt();
-                            input.nextLine();
-                            System.out.println("Company registration number: ");
-                            cCompanyRegNumber = input.nextInt();
-                            input.nextLine();
-                            Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
+                        System.out.println("\nWhich customer do you wish to modify?: \n");
+                        int edNum = Integer.parseInt(input.nextLine())-1;
+                        System.out.println(temp.get(edNum)+"\n");
+                        if (temp.get(edNum).getCustomerType().equals("COMPANY")){
+                            Company outputCustomer = (Company) createCustomer(false, true);
                             outputCustomer.setID(temp.get(edNum).getID());
                             myCustomerList.editCustomer(outputCustomer);
-                        } else {
-                            System.out.println("Licence number: ");
-                            String cRegNumber = input.nextLine();
-                            System.out.println("Driver since (yyyy-mm-dd): ");
-                            Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
-                            Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
+                        }else{
+                            Private outputCustomer = (Private) createCustomer(false, false);
                             outputCustomer.setID(temp.get(edNum).getID());
                             myCustomerList.editCustomer(outputCustomer);
                         }
@@ -181,7 +147,7 @@ public class Main {
         ArrayList<Customer> temp = myCustomerList.getCustomerList();
         System.out.println("List of customers from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
-            System.out.println("NUMBER " + i + ": \n" + temp.get(i)+"\n\n");
+            System.out.println("NUMBER " + (i+1) + ": \n" + temp.get(i)+"\n\n");
         }
         System.out.println("------------------------------");
     }
@@ -200,17 +166,15 @@ public class Main {
         return new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
     }
 
-    public static void createCustomer(boolean continueToContract) throws IOException, ParseException {
+    public static Customer createCustomer(boolean continueToContract, boolean company) throws IOException, ParseException {
         //Create customer
-        System.out.println("1. New private customer\n2. New company customer");
-        int customerSelect = Integer.parseInt(input.nextLine());
         String cType = "";
-        if (customerSelect == 1){
+        if (company==false){
             cType = "PRIVATE";
         }else{
             cType = "COMPANY";
         }
-        System.out.println("Creating new customer..\nPlease enter the following\n-------------------");
+        System.out.println("Please enter the following\n-------------------");
         System.out.println("Name: ");
         String cName = input.nextLine();
         System.out.println("City: ");
@@ -232,7 +196,7 @@ public class Main {
         String cCompanyAddress="";
         int cCompanyRegNumber;
         int cCompanyPhone;
-        if(customerSelect==2){
+        if(company==true){
             System.out.println("Company name: ");
             cCompany = input.nextLine();
             System.out.println("Company address: ");
@@ -244,18 +208,16 @@ public class Main {
             cCompanyRegNumber = input.nextInt();
             input.nextLine();
             Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
-            myCustomerList.addCustomer(outputCustomer);
-            if (continueToContract==true){createContract(myCustomerList.getCustomerList().size()-1);}
+            return outputCustomer;
+
         } else {
             System.out.println("Licence number: ");
             String cRegNumber = input.nextLine();
             System.out.println("Driver since (yyyy-mm-dd): ");
             Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
             Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
-            myCustomerList.addCustomer(outputCustomer);
+            return outputCustomer;
         }
-
-
     }
 
     public static void createContract(int cxID) throws IOException, ParseException {

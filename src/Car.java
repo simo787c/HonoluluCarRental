@@ -45,6 +45,6 @@ public class Car {
     }
 
     public String toString(){
-        return ("Brand: " + brandModel + "\nFuel Type: " + fuelType + "\nLicense Plate: " + plate + "\nFirst Registration Date: " + fRegDate + "");
+        return ("Type: " + rentalType + "\nBrand: " + brandModel + "\nFuel Type: " + fuelType + "\nLicense Plate: " + plate + "\nFirst Registration Date: " + fRegDate + "");
     }
 }

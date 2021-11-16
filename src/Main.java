@@ -8,8 +8,11 @@ public class Main {
     public static Scanner input = new Scanner(System.in);
     private static CustomerList myCustomerList = new CustomerList();
     private static CarList myCarList = new CarList();
+    private static ContractList myContractList = new ContractList();
+
     //private and company customers arraylist
     public static void main(String[] args) throws FileNotFoundException, ParseException {
+        System.out.println("Welcome to Honolulu Car Rental");
         myCarList.getCarList(); //populates car arraylist
         myCustomerList.getCustomerList(); //populates customer arraylist
         mainMenu();
@@ -17,8 +20,7 @@ public class Main {
 
     public static void mainMenu() throws FileNotFoundException, ParseException {
         //print out menu
-        System.out.println("Welcome to Honolulu Car Rental");
-        System.out.println("1. Create new entry\n2. Edit existing entries\n3. Entries\n4. End Program");
+        System.out.println("\n1. Create new entry\n2. Edit existing entries\n3. Entries\n4. End Program");
         int select = Integer.parseInt(input.nextLine());
         switch (select){
             case 1://Create cars, customers, or contracts
@@ -53,57 +55,20 @@ public class Main {
                         mainMenu();
                     case 2:
                         //Create customer
-                        System.out.println("1. New private customer\n2. New company customer");
-                        int customerSelect = Integer.parseInt(input.nextLine());
-                        String cType = "";
-                        if (customerSelect == 1){
-                            cType = "PRIVATE";
-                        }else{
-                            cType = "COMPANY";
-                        }
-                        System.out.println("Creating new customer..\nPlease enter the following\n-------------------");
-                        System.out.println("Name: ");
-                        String cName = input.nextLine();
-                        System.out.println("City: ");
-                        String cCity = input.nextLine();
-                        System.out.println("Address: ");
-                        String cAddress = input.nextLine();
-                        System.out.println("Postal Code: ");
-                        int cPostal = Integer.parseInt(input.nextLine());
-                        System.out.println("Mobile/home phone: ");
-                        int cMobile = Integer.parseInt(input.nextLine());
-                        System.out.println("Work phone: ");
-                        int cWorkPhone = Integer.parseInt(input.nextLine());
-                        System.out.println("Email: ");
-                        String cMail = input.nextLine();
-
-                        String cCompany="";
-                        String cCompanyAddress="";
-                        int cCompanyRegNumber;
-                        int cCompanyPhone;
-                        if(customerSelect==2){
-                            System.out.println("Company name: ");
-                            cCompany = input.nextLine();
-                            System.out.println("Company address: ");
-                            cCompanyAddress = input.nextLine();
-                            System.out.println("Company phone: ");
-                            cCompanyPhone = Integer.parseInt(input.nextLine());
-                            System.out.println("Company registration number: ");
-                            cCompanyRegNumber = Integer.parseInt(input.nextLine());
-                            Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
-                            myCustomerList.addCustomer(outputCustomer);
-                        } else {
-                            System.out.println("Licence number: ");
-                            String cRegNumber = input.nextLine();
-                            System.out.println("Driver since (yyyy-mm-dd): ");
-                            Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
-                            Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
-                            myCustomerList.addCustomer(outputCustomer);
-                        }
+                        createCustomer(false);
                         mainMenu();
                     case 3:
-                        //Create Contract
-                }
+                        System.out.println("*** CREATE CONTRACT ***");
+                        System.out.println("Does the customer exist in the registry? Y/n");
+                        if (input.nextLine().equalsIgnoreCase("n")) {
+                            createCustomer(true);
+                        }else{
+                            printCustomers();
+                            System.out.print("Enter number to select customer: ");
+                            createContract(Integer.parseInt(input.nextLine()));
+                        }
+
+                    }
             case 2://Edit
                 System.out.println("1. Edit Cars\n 2. Edit Customers\n 3. Edit Contracts");
                 int editSelect = Integer.parseInt(input.nextLine());
@@ -173,6 +138,8 @@ public class Main {
                         printCustomers();
                         mainMenu();
                     case 3:
+                        printContracts();
+                        mainMenu();
                 }
             case 4://end program
                 break;
@@ -198,7 +165,7 @@ public class Main {
         ArrayList<Car> temp = myCarList.getCarList();
         System.out.println("List of cars from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
-            System.out.println(temp.get(i)+"\n");
+            System.out.println("NUMBER: " + (i+1) + "\n" + temp.get(i)+"\n");
         }
         System.out.println("------------------------------");
     }
@@ -208,6 +175,16 @@ public class Main {
         ArrayList<Customer> temp = myCustomerList.getCustomerList();
         System.out.println("List of customers from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
+            System.out.println("NUMBER " + i + ": \n" + temp.get(i)+"\n\n");
+        }
+        System.out.println("------------------------------");
+    }
+
+    public static void printContracts() throws FileNotFoundException, ParseException {
+        //evt ask user if they wish to only show private or company customers
+        ArrayList<RentalContract> temp = myContractList.getContracts();
+        System.out.println("List of customers from file\n------------------------------");
+        for (int i = 0; i < temp.size(); i++){
             System.out.println(temp.get(i)+"\n");
         }
         System.out.println("------------------------------");
@@ -215,5 +192,82 @@ public class Main {
 
     public static Date stringToDate(String dateAsString) throws ParseException {
         return new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
+    }
+
+    public static void createCustomer(boolean continueToContract) throws FileNotFoundException, ParseException {
+        //Create customer
+        System.out.println("1. New private customer\n2. New company customer");
+        int customerSelect = Integer.parseInt(input.nextLine());
+        String cType = "";
+        if (customerSelect == 1){
+            cType = "PRIVATE";
+        }else{
+            cType = "COMPANY";
+        }
+        System.out.println("Creating new customer..\nPlease enter the following\n-------------------");
+        System.out.println("Name: ");
+        String cName = input.nextLine();
+        System.out.println("City: ");
+        String cCity = input.nextLine();
+        System.out.println("Address: ");
+        String cAddress = input.nextLine();
+        System.out.println("Postal Code: ");
+        int cPostal = Integer.parseInt(input.nextLine());
+        System.out.println("Phone: ");
+        int cWorkPhone = input.nextInt();
+        input.nextLine();
+        System.out.println("Mobile phone: ");
+        int cMobile = input.nextInt();
+        input.nextLine();
+        System.out.println("Email: ");
+        String cMail = input.nextLine();
+
+        String cCompany="";
+        String cCompanyAddress="";
+        int cCompanyRegNumber;
+        int cCompanyPhone;
+        if(customerSelect==2){
+            System.out.println("Company name: ");
+            cCompany = input.nextLine();
+            System.out.println("Company address: ");
+            cCompanyAddress = input.nextLine();
+            System.out.println("Company phone: ");
+            cCompanyPhone = input.nextInt();
+            input.nextLine();
+            System.out.println("Company registration number: ");
+            cCompanyRegNumber = input.nextInt();
+            input.nextLine();
+            Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
+            myCustomerList.addCustomer(outputCustomer);
+            if (continueToContract==true){createContract(myCustomerList.getCustomerList().size()-1);}
+        } else {
+            System.out.println("Licence number: ");
+            String cRegNumber = input.nextLine();
+            System.out.println("Driver since (yyyy-mm-dd): ");
+            Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
+            Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
+            myCustomerList.addCustomer(outputCustomer);
+        }
+
+
+    }
+
+    public static void createContract(int cxID) throws FileNotFoundException, ParseException {
+        printCars();
+        Customer tempCustomer = myCustomerList.getCustomerList().get(cxID);
+        System.out.print("Enter number to select rental car: ");
+        Car tempCar = myCarList.getCarList().get(Integer.parseInt(input.nextLine())-1);
+        System.out.println("*** SELECTED CUSTOMER: " + tempCustomer.getDriverName() + " ***");
+        System.out.println("*** SELECTED CAR: " + tempCar.getBrandModel() + " ***");
+        System.out.print("What is the maximum drive length in KM?: ");
+        int maxKM = Integer.parseInt(input.nextLine());
+        System.out.println("What is the start date of the rental? (yyyy-mm-dd):");
+        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
+        System.out.println("What is the end date of the rental? (yyyy-mm-dd):");
+        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
+        RentalContract output = new RentalContract(tempCustomer, tempCar, startDate, endDate, maxKM, tempCar.getOdometerVal());
+        myContractList.addCustomer(output);
+        System.out.println("Added ");
+        mainMenu();
     }
 }

@@ -10,8 +10,8 @@ public class Main {
     private static CarList myCarList = new CarList();
     //private and company customers arraylist
     public static void main(String[] args) throws FileNotFoundException, ParseException {
-        myCarList.createCars(); //populates car arraylist
-        myCustomerList.createCustomers(); //populates customer arraylist
+        myCarList.getCarList(); //populates car arraylist
+        myCustomerList.getCustomerList(); //populates customer arraylist
         mainMenu();
     }
 

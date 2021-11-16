@@ -12,15 +12,12 @@ import java.util.Scanner;
 public class CarList {
 
     private ArrayList<Car> cars = new ArrayList<>();
-    public ArrayList<Car> createCars() throws FileNotFoundException, ParseException {
+    public ArrayList<Car> getCarList() throws FileNotFoundException, ParseException {
         //for initializing arraylist
         populateCarList();
         return cars;
     }
-    public ArrayList<Car> getCarList() {
-        //for printing out existing list
-        return cars;
-    }
+
     public void addCar(Car car) throws FileNotFoundException, ParseException {
             try{
                 FileWriter appendNE = new FileWriter("files/cars",true);
@@ -39,6 +36,7 @@ public class CarList {
     public void populateCarList() throws ParseException, FileNotFoundException {
         File myObj = new File("files/cars"); //Gets car file
         Scanner myReader = new Scanner(myObj);
+        cars.clear();
         while (myReader.hasNextLine()) {
             String[] parts = myReader.nextLine().split(" // "); //Splits
             if(parts[0].equals("LUXURY")){

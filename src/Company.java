@@ -1,4 +1,5 @@
 public class Company extends Customer {
+
     private String companyName;
     private String companyAddress;
     private int companyPhone;
@@ -18,6 +19,22 @@ public class Company extends Customer {
     public String getCompanyAddress(){return companyAddress;}
     public int getCompanyPhone(){return companyPhone;}
     public int getCompanyRegistrationNumber(){return companyRegistrationNumber;}
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
+
+    public void setCompanyPhone(int companyPhone) {
+        this.companyPhone = companyPhone;
+    }
+
+    public void setCompanyRegistrationNumber(int companyRegistrationNumber) {
+        this.companyRegistrationNumber = companyRegistrationNumber;
+    }
 
     @Override
     public String toString(){

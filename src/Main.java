@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,14 +12,14 @@ public class Main {
     private static ContractList myContractList = new ContractList();
 
     //private and company customers arraylist
-    public static void main(String[] args) throws FileNotFoundException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException {
         System.out.println("Welcome to Honolulu Car Rental");
         myCarList.getCarList(); //populates car arraylist
         myCustomerList.getCustomerList(); //populates customer arraylist
         mainMenu();
     }
 
-    public static void mainMenu() throws FileNotFoundException, ParseException {
+    public static void mainMenu() throws IOException, ParseException {
         //print out menu
         System.out.println("\n1. Create new entry\n2. Edit existing entries\n3. Entries\n4. End Program");
         int select = Integer.parseInt(input.nextLine());
@@ -85,36 +86,39 @@ public class Main {
 
                         System.out.println("Modifying customer..\nPlease enter the following\n-------------------");
                         System.out.println("Name: ");
-                        temp.get(edNum).setDriverName(input.nextLine());
+                        String cName = input.nextLine();
                         System.out.println("City: ");
-                        temp.get(edNum).setCity(input.nextLine());
+                        String cCity = input.nextLine();
                         System.out.println("Address: ");
-                        temp.get(edNum).setAddress(input.nextLine());
+                        String cAddress = input.nextLine();
                         System.out.println("Postal Code: ");
-                        temp.get(edNum).setPostalCode(input.nextInt());
-                        System.out.println("Mobile/home phone: ");
-                        temp.get(edNum).setMobilePhone(input.nextInt());
-                        System.out.println("Work phone: ");
-                        temp.get(edNum).setPhone(input.nextInt());
+                        int cPostal = Integer.parseInt(input.nextLine());
+                        System.out.println("Phone: ");
+                        int cWorkPhone = input.nextInt();
+                        input.nextLine();
+                        System.out.println("Mobile phone: ");
+                        int cMobile = input.nextInt();
+                        input.nextLine();
                         System.out.println("Email: ");
-                        temp.get(edNum).setEmail(input.nextLine());
+                        String cMail = input.nextLine();
 
                         String cCompany="";
                         String cCompanyAddress="";
                         int cCompanyRegNumber;
                         int cCompanyPhone;
                         if(temp.get(edNum).getCustomerType().equals("COMPANY")){
-                            ArrayList<Company> ctemp = (ArrayList<Company>) temp;
                             System.out.println("Company name: ");
                             cCompany = input.nextLine();
                             System.out.println("Company address: ");
                             cCompanyAddress = input.nextLine();
                             System.out.println("Company phone: ");
-                            cCompanyPhone = Integer.parseInt(input.nextLine());
+                            cCompanyPhone = input.nextInt();
+                            input.nextLine();
                             System.out.println("Company registration number: ");
-                            cCompanyRegNumber = Integer.parseInt(input.nextLine());
-                            temp.set
+                            cCompanyRegNumber = input.nextInt();
+                            input.nextLine();
                             Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
+                            outputCustomer.setID(temp.get(edNum).getID());
                             myCustomerList.editCustomer(outputCustomer);
                         } else {
                             System.out.println("Licence number: ");
@@ -122,6 +126,7 @@ public class Main {
                             System.out.println("Driver since (yyyy-mm-dd): ");
                             Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
                             Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
+                            outputCustomer.setID(temp.get(edNum).getID());
                             myCustomerList.editCustomer(outputCustomer);
                         }
                         mainMenu();
@@ -195,7 +200,7 @@ public class Main {
         return new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
     }
 
-    public static void createCustomer(boolean continueToContract) throws FileNotFoundException, ParseException {
+    public static void createCustomer(boolean continueToContract) throws IOException, ParseException {
         //Create customer
         System.out.println("1. New private customer\n2. New company customer");
         int customerSelect = Integer.parseInt(input.nextLine());
@@ -253,7 +258,7 @@ public class Main {
 
     }
 
-    public static void createContract(int cxID) throws FileNotFoundException, ParseException {
+    public static void createContract(int cxID) throws IOException, ParseException {
         printCars();
         Customer tempCustomer = myCustomerList.getCustomerList().get(cxID);
         System.out.print("Enter number to select rental car: ");

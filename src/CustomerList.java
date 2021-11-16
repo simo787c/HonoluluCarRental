@@ -43,7 +43,7 @@ public class CustomerList {
         populateCustomerList();
     }
 
-    public void editCustomer(Customer customer) throws IOException {
+    public void editCustomer(Customer customer, boolean delete) throws IOException {
         String output = "";
         //File is read
         File myObj = new File("files/customers"); //First we read the file
@@ -53,14 +53,16 @@ public class CustomerList {
             if (!currentline.contains("ID:"+customer.getID())){
                 output+=currentline+"\n";}
             else { //Save line if it doesn't contain customer
-                if (customer.getCustomerType().equals("COMPANY")){
-                    Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
-                    output+=(cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID() + "\n");
-                }else if(customer.getCustomerType().equals("PRIVATE")){
-                    Private pCustomer = (Private) customer; //Casting in order to get extra parameters, woohoo
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
-                    output+=("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID() + "\n");
+                if(!delete) {
+                    if (customer.getCustomerType().equals("COMPANY")) {
+                        Company cCustomer = (Company) customer; //Casting in order to get extra parameters, woohoo
+                        output += (cCustomer.getCustomerType() + " // " + cCustomer.getDriverName() + " // " + cCustomer.getAddress() + " // " + cCustomer.getPostalCode() + " // " + cCustomer.getCity() + " // " + cCustomer.getMobilePhone() + " // " + cCustomer.getPhone() + " // " + cCustomer.getEmail() + " // " + cCustomer.getCompanyName() + " // " + cCustomer.getCompanyAddress() + " // " + cCustomer.getCompanyPhone() + " // " + cCustomer.getCompanyRegistrationNumber() + " // ID:" + cCustomer.getID() + "\n");
+                    } else if (customer.getCustomerType().equals("PRIVATE")) {
+                        Private pCustomer = (Private) customer; //Casting in order to get extra parameters, woohoo
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        String strDate = dateFormat.format(pCustomer.getDriverSinceDate());
+                        output += ("\n" + pCustomer.getCustomerType() + " // " + pCustomer.getDriverName() + " // " + pCustomer.getAddress() + " // " + pCustomer.getPostalCode() + " // " + pCustomer.getCity() + " // " + pCustomer.getMobilePhone() + " // " + pCustomer.getPhone() + " // " + pCustomer.getEmail() + " // " + pCustomer.getLicenseNumber() + " // " + strDate + " // ID:" + pCustomer.getID() + "\n");
+                    }
                 }
             }
         }

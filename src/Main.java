@@ -21,7 +21,7 @@ public class Main {
 
     public static void mainMenu() throws IOException, ParseException {
         //print out menu
-        System.out.println("\n1. Create new entry\n2. Edit existing entries\n3. Entries\n4. End Program");
+        System.out.println("\n1. Create new entry\n2. Edit existing entries\n3. View entries\n4. End Program");
         int select = Integer.parseInt(input.nextLine());
         switch (select){
             case 1://Create cars, customers, or contracts
@@ -68,14 +68,13 @@ public class Main {
                             myCustomerList.addCustomer(createCustomer(false,(Integer.parseInt(input.nextLine())==2)));
                             myContractList.addCustomer(createContract(myCustomerList.getCustomerList().size()-1));
                             System.out.println("*** Added contract! ***");
-                            mainMenu();
                         }else{
                             printCustomers();
                             System.out.print("Enter number to select customer: ");
                             createContract(Integer.parseInt(input.nextLine()));
                         }
-
-                    }
+                        mainMenu();
+                }
             case 2://Edit
                 System.out.println("1. Edit Cars\n 2. Edit Customers\n 3. Edit Contracts");
                 int editSelect = Integer.parseInt(input.nextLine());
@@ -86,30 +85,49 @@ public class Main {
                         for (int i = 0; i<=temp.size()-1; i++){
                             System.out.println(i+1 + ": " + (temp.get(i)+"\n"));
                         }
+
                         System.out.println("\nWhich customer do you wish to modify?: \n");
-                        int cx = Integer.parseInt(input.nextLine())-1;
-                        System.out.println(temp.get(cx)+"\n");
-                        if (temp.get(cx).getCustomerType().equals("COMPANY")){
-                            Company outputCustomer = (Company) createCustomer(false, true);
-                            outputCustomer.setID(temp.get(cx).getID());
-                            myCustomerList.editCustomer(outputCustomer);
-                        }else{
-                            Private outputCustomer = (Private) createCustomer(false, false);
-                            outputCustomer.setID(temp.get(cx).getID());
-                            myCustomerList.editCustomer(outputCustomer);
+                        int cx = Integer.parseInt(input.nextLine()) - 1;
+                        System.out.println(temp.get(cx) + "\n");
+                        System.out.println("\n1: Delete entry\n2: Edit entry");
+                        editSelect = Integer.parseInt(input.nextLine());
+                        switch(editSelect) {
+                            case 1:
+                                Customer removalCx = myCustomerList.getCustomerList().get(cx);
+                                myCustomerList.editCustomer(removalCx, true);
+                                System.out.println("*** Done! ***");
+                                mainMenu();
+                            case 2:
+                                if (temp.get(cx).getCustomerType().equals("COMPANY")) {
+                                    Company outputCustomer = (Company) createCustomer(false, true);
+                                    outputCustomer.setID(temp.get(cx).getID());
+                                    myCustomerList.editCustomer(outputCustomer, false);
+                                } else {
+                                    Private outputCustomer = (Private) createCustomer(false, false);
+                                    outputCustomer.setID(temp.get(cx).getID());
+                                    myCustomerList.editCustomer(outputCustomer, false);
+                                }
+                                System.out.println("*** Done! ***");
+                                mainMenu();
                         }
-                        System.out.println("*** Done! ***");
-                        mainMenu();
-                        mainMenu();
                     case 3://contract
                         printContracts();
                         System.out.println("\nWhich contract do you wish to modify?: \n");
                         int rc = Integer.parseInt(input.nextLine())-1;
-                        printCustomers();
-                        System.out.print("Who should be on the selected contract? Enter number to select customer: ");
-                        myContractList.editContract(createContract(Integer.parseInt(input.nextLine())-1), rc);
-                        System.out.println("*** Done! ***");
-                        mainMenu();
+                        System.out.println("\n1: Delete entry\n2: Edit entry");
+                        editSelect = Integer.parseInt(input.nextLine());
+                        switch(editSelect) {
+                            case 1:
+                                myContractList.editContract(myContractList.getContracts().get(rc), rc, true);
+                                System.out.println("*** Done! ***");
+                                mainMenu();
+                            case 2:
+                                printCustomers();
+                                System.out.print("Who should be on the selected contract? Enter number to select customer: ");
+                                myContractList.editContract(createContract(Integer.parseInt(input.nextLine()) - 1), rc, false);
+                                System.out.println("*** Done! ***");
+                                mainMenu();
+                        }
                 }
 
             case 3://print lists from files
@@ -220,16 +238,14 @@ public class Main {
             System.out.println("Company registration number: ");
             cCompanyRegNumber = input.nextInt();
             input.nextLine();
-            Company outputCustomer = new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
-            return outputCustomer;
+            return new Company(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cCompany, cCompanyAddress, cCompanyPhone, cCompanyRegNumber);
 
         } else {
             System.out.println("Licence number: ");
             String cRegNumber = input.nextLine();
             System.out.println("Driver since (yyyy-mm-dd): ");
             Date cDriverSince = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
-            Private outputCustomer = new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
-            return outputCustomer;
+            return new Private(cName, cAddress, cPostal, cCity, cMobile, cWorkPhone, cMail, cRegNumber, cDriverSince);
         }
     }
 
@@ -246,7 +262,6 @@ public class Main {
         Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
         System.out.println("What is the end date of the rental? (yyyy-mm-dd):");
         Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
-        RentalContract output = new RentalContract(tempCustomer, tempCar, startDate, endDate, maxKM, tempCar.getOdometerVal());
-        return output;
+        return new RentalContract(tempCustomer, tempCar, startDate, endDate, maxKM, tempCar.getOdometerVal());
     }
 }

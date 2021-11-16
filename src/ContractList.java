@@ -62,7 +62,7 @@ public class ContractList {
         }
         populateContractList();
     }
-    public void editContract(RentalContract contract, int oldNum) throws IOException {
+    public void editContract(RentalContract contract, int oldNum, boolean delete) throws IOException {
         String output = "";
         //File is read
         File myObj = new File("files/contracts"); //First we read the file
@@ -73,8 +73,10 @@ public class ContractList {
             if (!parts[0].equals(String.valueOf(contracts.get(oldNum).getCustomer().getID()))){  //Save line if it doesn't contain contract
                 output+=currentline+"\n";}
             else { //Save edited contract from parameter
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                output += (contract.getCustomer().getID() + " // " + dateFormat.format(contract.getFromDateTime()) + " // " + dateFormat.format(contract.getToDate()) + " // " + contract.getMaxKilometer() + " // " + contract.getStartKilometer() + " // " + contract.getCar().getPlate() + "\n");
+                if (!delete) {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    output += (contract.getCustomer().getID() + " // " + dateFormat.format(contract.getFromDateTime()) + " // " + dateFormat.format(contract.getToDate()) + " // " + contract.getMaxKilometer() + " // " + contract.getStartKilometer() + " // " + contract.getCar().getPlate() + "\n");
+                }
             }
         }
         myReader.close();

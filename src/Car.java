@@ -1,6 +1,7 @@
 import java.util.Date;
 
 public class Car {
+
     private String brandModel;
     private String fuelType;
     private String plate;
@@ -30,6 +31,30 @@ public class Car {
 
     public String getRentalType() {
         return rentalType;
+    }
+
+    public void setBrandModel(String brandModel) {
+        this.brandModel = brandModel;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public void setPlate(String plate) {
+        this.plate = plate;
+    }
+
+    public void setfRegDate(Date fRegDate) {
+        this.fRegDate = fRegDate;
+    }
+
+    public void setOdometerVal(int odometerVal) {
+        this.odometerVal = odometerVal;
+    }
+
+    public void setRentalType(String rentalType) {
+        this.rentalType = rentalType;
     }
 
     public Car(String rentalType, String brandModel, String fuelType, String plate, Date fRegDate, int odometerVal){

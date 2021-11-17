@@ -49,9 +49,9 @@ public class CustomerList {
         File myObj = new File("files/customers"); //First we read the file
         Scanner myReader = new Scanner(myObj);
         while (myReader.hasNextLine()) {
-            String currentline = myReader.nextLine();
-            if (!currentline.contains("ID:"+customer.getID())){
-                output+=currentline+"\n";}
+            String currentLine = myReader.nextLine();
+            if (!currentLine.contains("ID:"+customer.getID())){ //if line hasn't been modified
+                output+=currentLine+"\n";}
             else { //Save line if it doesn't contain customer
                 if(!delete) {
                     if (customer.getCustomerType().equals("COMPANY")) {

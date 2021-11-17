@@ -32,32 +32,12 @@ public class Main {
                     case 1:
                         //Create car
                         System.out.println("1. New Luxury Car\n2. New Family Car\n3. New Sports Car");
-                        int carSelect = Integer.parseInt(input.nextLine());
-                        String rType = "";
-                        if (carSelect == 1){
-                            rType = "LUXURY";
-                        }else if (carSelect == 2){
-                            rType = "FAMILY";
-                        }else if (carSelect == 3){
-                            rType = "SPORT";
-                        }
-                        System.out.println("Creating new Car..\nPlease enter the following\n-------------------");
-                        System.out.println("BrandModel: ");
-                        String bModel = input.nextLine();
-                        System.out.println("Fuel Type: ");
-                        String fType = input.nextLine();
-                        System.out.println("License Plate: ");
-                        String plate = input.nextLine();
-                        System.out.println("First Registration Date (yyyy-mm-dd): ");
-                        Date fRegDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
-                        System.out.println("Kilometers driven: ");
-                        int km = Integer.parseInt(input.nextLine());
-                        createCar(rType,bModel,fType,plate,fRegDate,km);
+                        myCarList.addCar(createCar(input.nextLine()));
                         mainMenu();
                     case 2:
                         //Create customer
                         System.out.println("1. New private customer\n2. New company customer");
-                        createCustomer(false,(Integer.parseInt(input.nextLine())==2));
+                        myCustomerList.addCustomer(createCustomer(false,(Integer.parseInt(input.nextLine())==2)));
                         mainMenu();
                     case 3:
                         //Create contract
@@ -71,7 +51,8 @@ public class Main {
                         }else{
                             printCustomers();
                             System.out.print("Enter number to select customer: ");
-                            createContract(Integer.parseInt(input.nextLine()));
+                            myContractList.addCustomer(createContract(Integer.parseInt(input.nextLine())-1));
+
                         }
                         mainMenu();
                 }
@@ -79,8 +60,30 @@ public class Main {
                 System.out.println("1. Edit Cars\n 2. Edit Customers\n 3. Edit Contracts");
                 int editSelect = Integer.parseInt(input.nextLine());
                 switch(editSelect){
-                    case 1://car
-                    case 2://customer
+                    case 1://edit car
+                        ArrayList<Car> eCList = myCarList.getCarList();
+                        printCars();
+                        System.out.println("\nWhich car do you wish to modify?: \n");
+                        int cc = Integer.parseInt(input.nextLine())-1;
+                        System.out.println(eCList.get(cc)+"\n");
+                        if (eCList.get(cc).getRentalType().equals("LUXURY")){
+                            Luxury outputCar = (Luxury) createCar("1");
+                            outputCar.setPlate(eCList.get(cc).getPlate());
+                            myCarList.editCar(outputCar);
+
+                        }else if(eCList.get(cc).getRentalType().equals("FAMILY")){
+                            Family outputCar = (Family) createCar("2");
+                            outputCar.setPlate(eCList.get(cc).getPlate());
+                            myCarList.editCar(outputCar);
+                        }else{
+                            Sport outputCar = (Sport) createCar("3");
+                            outputCar.setPlate(eCList.get(cc).getPlate());
+                            myCarList.editCar(outputCar);
+                        }
+                        System.out.println("*** Done! ***");
+                        mainMenu();
+
+                    case 2://edit customer
                         ArrayList<Customer> temp = myCustomerList.getCustomerList();
                         for (int i = 0; i<=temp.size()-1; i++){
                             System.out.println(i+1 + ": " + (temp.get(i)+"\n"));
@@ -151,18 +154,7 @@ public class Main {
         }
     }
 
-    public static void createCar(String rType, String bModel, String fType, String plate, Date fRegDate, int km) throws ParseException, FileNotFoundException {
-        Car newCar = new Car();
-        if (rType.equals("LUXURY")){
-            newCar = new Luxury(bModel, fType, plate, fRegDate, km);
-        }else if (rType.equals("FAMILY")){
-            newCar = new Family(bModel, fType, plate, fRegDate, km);
-        }else if (rType.equals("SPORT")){
-            newCar = new Sport(bModel, fType, plate, fRegDate, km);
-        }
-        myCarList.addCar(newCar);
-        System.out.println("Car successfully created!");
-    }
+
 
     public static void printCars() throws FileNotFoundException, ParseException {
         ArrayList<Car> temp = myCarList.getCarList();
@@ -186,7 +178,7 @@ public class Main {
     public static void printContracts() throws FileNotFoundException, ParseException {
         //evt ask user if they wish to only show private or company customers
         ArrayList<RentalContract> temp = myContractList.getContracts();
-        System.out.println("List of customers from file\n------------------------------");
+        System.out.println("List of contracts from file\n------------------------------");
         for (int i = 0; i < temp.size(); i++){
             System.out.println("NUMBER " + (i+1) + ":\n" + temp.get(i)+"\n");
         }
@@ -196,7 +188,37 @@ public class Main {
     public static Date stringToDate(String dateAsString) throws ParseException {
         return new SimpleDateFormat("yyyy-MM-dd").parse(dateAsString);
     }
+    public static Car createCar(String rentalType) throws ParseException, FileNotFoundException {
 
+        if (rentalType.equals("1")){
+            rentalType = "LUXURY";
+        }else if (rentalType.equals("2")){
+            rentalType = "FAMILY";
+        }else if (rentalType.equals("3")){
+            rentalType = "SPORT";
+        }
+        System.out.println("Please enter the following\n-------------------");
+        System.out.println("BrandModel: ");
+        String bModel = input.nextLine();
+        System.out.println("Fuel Type: ");
+        String fType = input.nextLine();
+        System.out.println("License Plate: ");
+        String plate = input.nextLine();
+        System.out.println("First Registration Date (yyyy-mm-dd): ");
+        Date fRegDate = new SimpleDateFormat("yyyy-MM-dd").parse(input.nextLine());
+        System.out.println("Kilometers driven: ");
+        int km = Integer.parseInt(input.nextLine());
+
+        Car newCar = new Car();
+        if (rentalType.equals("LUXURY")){
+            newCar = new Luxury(bModel, fType, plate, fRegDate, km);
+        }else if (rentalType.equals("FAMILY")){
+            newCar = new Family(bModel, fType, plate, fRegDate, km);
+        }else if (rentalType.equals("SPORT")){
+            newCar = new Sport(bModel, fType, plate, fRegDate, km);
+        }
+        return newCar;
+    }
     public static Customer createCustomer(boolean continueToContract, boolean company) throws IOException, ParseException {
         //Create customer
         String cType = "";

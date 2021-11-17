@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +28,43 @@ public class CarList {
                 System.err.println("Error while printing"+ er.getMessage());
             }
             populateCarList();
+    }
+
+    public void editCar(Car car) throws IOException {
+        String output = "";
+        //File is read
+        File myObj = new File("files/cars"); //First we read the file
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+            String currentLine = myReader.nextLine();
+            if (!currentLine.contains(car.getPlate())){ //if line hasn't been modified
+                output+=currentLine+"\n";}
+            else { //Save line if it doesn't contain license plate
+                if (car.getRentalType().equals("LUXURY")){
+                    Luxury lCar = (Luxury) car; //Casting in order to get extra parameters, woohoo
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String strDate = dateFormat.format(lCar.getfRegDate());
+                    output+=(lCar.getRentalType() + " // " + lCar.getBrandModel() + " // " + lCar.getFuelType() + " // " + lCar.getPlate() + " // " + strDate + " // " + lCar.getOdometerVal() + "\n");
+                }else if(car.getRentalType().equals("FAMILY")){
+                    Family fCar = (Family) car; //Casting in order to get extra parameters, woohoo
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String strDate = dateFormat.format(fCar.getfRegDate());
+                    output+=(fCar.getRentalType() + " // " + fCar.getBrandModel() + " // " + fCar.getFuelType() + " // " + fCar.getPlate() + " // " + strDate + " // " + fCar.getOdometerVal() + "\n");
+                }else if (car.getRentalType().equals("SPORT")){
+                    Sport sCar = (Sport) car; //Casting in order to get extra parameters, woohoo
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String strDate = dateFormat.format(sCar.getfRegDate());
+                    output+=(sCar.getRentalType() + " // " + sCar.getBrandModel() + " // " + sCar.getFuelType() + " // " + sCar.getPlate() + " // " + strDate + " // " + sCar.getOdometerVal() + "\n");
+
+                }
+            }
+        }
+
+        myReader.close();
+        //New file is written
+        FileWriter myWriter = new FileWriter("files/cars");
+        myWriter.write(output); //Then we write the whole thing again
+        myWriter.close();
     }
 
     public void populateCarList() throws ParseException, FileNotFoundException {
